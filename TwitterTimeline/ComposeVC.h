@@ -10,4 +10,10 @@
 
 @interface ComposeVC : UIViewController
 
+@property (nonatomic, weak) Tweet *tweet;
+@property (nonatomic, weak) IBOutlet UILabel *textLabel;
+@property (nonatomic, weak) IBOutlet UILabel *nameLabel;
+@property (nonatomic, weak) IBOutlet UILabel *screenNameLabel;
+@property (nonatomic, weak) IBOutlet UIImageView *profileImage;
+
 @end

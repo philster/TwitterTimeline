@@ -12,12 +12,12 @@
 @interface TweetVC : UIViewController
 
 @property (nonatomic, weak) Tweet *tweet;
-/*
 @property (nonatomic, weak) IBOutlet UILabel *textLabel;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *screenNameLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *profileImage;
 @property (nonatomic, weak) IBOutlet UILabel *createdAtLabel;
+/*
 @property (nonatomic, weak) IBOutlet UIButton *replyButton;
 @property (nonatomic, weak) IBOutlet UIButton *retweetButton;
 @property (nonatomic, weak) IBOutlet UIButton *favoriteButton;

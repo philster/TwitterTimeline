@@ -7,6 +7,7 @@
 //
 
 #import "TweetVC.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface TweetVC ()
 
@@ -20,7 +21,6 @@
     if (self) {
         // Custom initialization
         self.title = @"Tweet";
-        
     }
     return self;
 }
@@ -32,6 +32,17 @@
 
     // Create Reply buttons
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reply" style:UIBarButtonItemStylePlain target:self action:@selector(onReply)];
+    
+    // Populate tweet view data
+    self.textLabel.text = self.tweet.text;
+    self.nameLabel.text = self.tweet.name;
+    self.screenNameLabel.text = self.tweet.screen_name;
+    self.textLabel.text = self.tweet.text;
+    [self.textLabel sizeToFit];
+    self.createdAtLabel.text = self.tweet.created_at;
+    
+    NSURL *url = [[NSURL alloc] initWithString:self.tweet.profile_image_url];
+    [self.profileImage setImageWithURL:url];
 }
 
 - (void)didReceiveMemoryWarning

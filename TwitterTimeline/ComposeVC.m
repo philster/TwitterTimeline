@@ -7,11 +7,9 @@
 //
 
 #import "ComposeVC.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface ComposeVC ()
-
-@property (nonatomic, strong) UIBarButtonItem *tempLeftButtonItem;
-@property (nonatomic, strong) UIBarButtonItem *tempRightButtonItem;
 
 @end
 
@@ -35,6 +33,14 @@
     // Create Cancel and Tweet buttons
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismiss)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Tweet" style:UIBarButtonItemStylePlain target:self action:@selector(onTweet)];
+
+    // Populate tweet view data
+    self.textLabel.text = self.tweet.text;
+    self.nameLabel.text = self.tweet.name;
+    self.screenNameLabel.text = self.tweet.screen_name;
+    
+    //NSURL *url = [[NSURL alloc] initWithString:self.tweet.profile_image_url];
+    //[self.profileImage setImageWithURL:url];
 }
 
 - (void)didReceiveMemoryWarning

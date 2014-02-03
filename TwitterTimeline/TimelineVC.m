@@ -10,6 +10,7 @@
 #import "ComposeVC.h"
 #import "TweetCell.h"
 #import "TweetVC.h"
+#import "TwitterClient.h"
 #import "UIImageView+AFNetworking.h"
 
 @interface TimelineVC ()
@@ -152,7 +153,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     // navigate to Tweet view controller
-    TweetVC *vc = [[TweetVC alloc] init];
+    TweetVC *vc = [[TweetVC alloc] initWithNibName:@"TweetVC" bundle:nil];
     vc.tweet = self.tweets[indexPath.row];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -180,6 +181,14 @@
 {
     // navigate to Compose view controller
     ComposeVC *vc = [[ComposeVC alloc] initWithNibName:@"ComposeVC" bundle:nil];
+    NSLog(@"%@", [User currentUser]);
+    /*
+    NSDictionary *user = [[User currentUser] data];
+    Tweet *newTweet = [[Tweet alloc] init];
+    newTweet.name = [user valueOrNilForKeyPath:@"name"];
+    newTweet.screen_name = [user valueOrNilForKeyPath:@"screen_name"];
+    newTweet.profile_image_url = [user valueOrNilForKeyPath:@"profile_image_url"];
+    */
     [self.navigationController pushViewController:vc animated:YES];
 }
 

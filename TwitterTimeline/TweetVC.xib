@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TweetVC">
             <connections>
+                <outlet property="createdAtLabel" destination="prL-gC-esL" id="ZQ8-uZ-VRx"/>
+                <outlet property="nameLabel" destination="gsZ-vP-C0A" id="I5x-6M-EVh"/>
+                <outlet property="profileImage" destination="a9I-j1-Ofe" id="UNp-ET-6E3"/>
+                <outlet property="screenNameLabel" destination="Yuo-Ld-C3E" id="GXt-DJ-hkn"/>
+                <outlet property="textLabel" destination="3xt-TW-MHO" id="t0Q-49-mXv"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -13,7 +18,67 @@
         <view contentMode="scaleToFill" id="1">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a9I-j1-Ofe">
+                    <rect key="frame" x="20" y="72" width="48" height="48"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="48" id="M1R-JB-ZFc"/>
+                        <constraint firstAttribute="height" constant="48" id="p2i-h2-eWj"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gsZ-vP-C0A">
+                    <rect key="frame" x="76" y="72" width="44" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="Tbl-oJ-rwK"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@screenname" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yuo-Ld-C3E">
+                    <rect key="frame" x="76" y="96" width="90" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="Ukv-FM-iWq"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="3xt-TW-MHO">
+                    <rect key="frame" x="20" y="128" width="280" height="77"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="280" id="WLg-VA-yVC"/>
+                    </constraints>
+                    <string key="text">I have seen the future of newspapers. I have seen the future of newspapers. I have seen the future of newspapers. I have seen the future of newspapers.</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="created_at" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="prL-gC-esL">
+                    <rect key="frame" x="20" y="210" width="69" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="Vqe-l7-A8w"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="prL-gC-esL" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="8Nr-Ys-9dG"/>
+                <constraint firstItem="3xt-TW-MHO" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="KmW-mr-qdG"/>
+                <constraint firstItem="Yuo-Ld-C3E" firstAttribute="leading" secondItem="a9I-j1-Ofe" secondAttribute="trailing" constant="8" id="LuZ-pi-S0s"/>
+                <constraint firstItem="gsZ-vP-C0A" firstAttribute="top" secondItem="1" secondAttribute="top" constant="72" id="XJk-ld-d07"/>
+                <constraint firstAttribute="trailing" secondItem="3xt-TW-MHO" secondAttribute="trailing" constant="20" id="aUB-cb-n89"/>
+                <constraint firstItem="a9I-j1-Ofe" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="dfn-RD-2Fv"/>
+                <constraint firstItem="prL-gC-esL" firstAttribute="top" secondItem="3xt-TW-MHO" secondAttribute="bottom" constant="5" id="g76-0n-MsC"/>
+                <constraint firstItem="3xt-TW-MHO" firstAttribute="top" secondItem="Yuo-Ld-C3E" secondAttribute="bottom" constant="11" id="ipv-8N-aIc"/>
+                <constraint firstItem="Yuo-Ld-C3E" firstAttribute="top" secondItem="gsZ-vP-C0A" secondAttribute="bottom" constant="3" id="kaw-zb-2WQ"/>
+                <constraint firstItem="gsZ-vP-C0A" firstAttribute="leading" secondItem="a9I-j1-Ofe" secondAttribute="trailing" constant="8" id="l18-f1-jhJ"/>
+                <constraint firstItem="a9I-j1-Ofe" firstAttribute="top" secondItem="1" secondAttribute="top" constant="72" id="yZK-nm-Rxo"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
