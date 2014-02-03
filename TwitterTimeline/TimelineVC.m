@@ -179,12 +179,19 @@
 - (void)reload
 {
     [[TwitterClient instance] homeTimelineWithCount:20 sinceId:0 maxId:0 success:^(AFHTTPRequestOperation *operation, id response) {
+        [self.refreshControl endRefreshing];
         NSLog(@"%@", response);
         self.tweets = [Tweet tweetsWithArray:response];
         [self.tableView reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         // Do nothing
+        [self.refreshControl endRefreshing];
+        [[[UIAlertView alloc] initWithTitle:@"Oops!" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }];
 }
+
+- (void)onError:(NSError *)error {
+}
+
 
 @end
