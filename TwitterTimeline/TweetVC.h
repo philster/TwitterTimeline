@@ -1,15 +1,18 @@
 //
-//  TweetCell.h
-//  twitter
+//  TweetVC.h
+//  TwitterTimeline
 //
-//  Created by Timothy Lee on 8/6/13.
-//  Copyright (c) 2013 codepath. All rights reserved.
+//  Created by Phil Wee on 2/2/14.
+//  Copyright (c) 2014 Philster. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
+#import "Tweet.h"
 
-@interface TweetCell : UITableViewCell
+@interface TweetVC : UIViewController
 
+@property (nonatomic, weak) Tweet *tweet;
+/*
 @property (nonatomic, weak) IBOutlet UILabel *textLabel;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *screenNameLabel;
@@ -18,5 +21,6 @@
 @property (nonatomic, weak) IBOutlet UIButton *replyButton;
 @property (nonatomic, weak) IBOutlet UIButton *retweetButton;
 @property (nonatomic, weak) IBOutlet UIButton *favoriteButton;
+*/
 
 @end
