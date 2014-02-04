@@ -39,7 +39,7 @@
     self.screenNameLabel.text = self.tweet.screen_name;
     self.textLabel.text = self.tweet.text;
     [self.textLabel sizeToFit];
-    self.createdAtLabel.text = self.tweet.created_at;
+    self.createdAtLabel.text = self.tweet.created_at_short;
     self.retweetCountLabel.text = [NSString stringWithFormat:@"%d RETWEETS", self.tweet.retweet_count];
     self.favoriteCountLabel.text =  [NSString stringWithFormat:@"%d FAVORITES", self.tweet.favorite_count];
     

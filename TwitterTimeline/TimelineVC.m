@@ -88,22 +88,22 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"MyTweetCell";
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-//    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-
-    Tweet *tweet = self.tweets[indexPath.row];
-//    cell.textLabel.text = tweet.text;
-
     TweetCell *cell = (TweetCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+
+    // Configure the cell...
+    Tweet *tweet = self.tweets[indexPath.row];
     cell.textLabel.text = tweet.text;
     cell.nameLabel.text = tweet.name;
     cell.screenNameLabel.text = tweet.screen_name;
     cell.textLabel.text = tweet.text;
-    cell.createdAtLabel.text = tweet.created_at;
+    cell.createdAtLabel.text = tweet.created_at_veryshort;
     
     NSURL *url = [[NSURL alloc] initWithString:tweet.profile_image_url];
     [cell.profileImage setImageWithURL:url];
- 
+    
+    [cell.retweetButton setBackgroundImage:[UIImage imageNamed:(tweet.retweeted ? @"icn_retweet_on" : @"icn_retweet_off")] forState:UIControlStateNormal];
+    [cell.favoriteButton setBackgroundImage:[UIImage imageNamed:(tweet.favorited ? @"icn_favorite_on" : @"icn_favorite_off")] forState:UIControlStateNormal];
+    
     return cell;
 }
 
@@ -146,14 +146,9 @@
 }
 */
 
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    // navigate to Tweet view controller
-    TweetVC *vc = [[TweetVC alloc] initWithNibName:@"TweetVC" bundle:nil];
-    vc.tweet = self.tweets[indexPath.row];
-    [self.navigationController pushViewController:vc animated:YES];
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 165;
 }
 
 /*
@@ -167,6 +162,16 @@
 }
 
  */
+
+#pragma mark - Table view delegate methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    // navigate to Tweet view controller
+    TweetVC *vc = [[TweetVC alloc] initWithNibName:@"TweetVC" bundle:nil];
+    vc.tweet = self.tweets[indexPath.row];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 #pragma mark - Private methods
 

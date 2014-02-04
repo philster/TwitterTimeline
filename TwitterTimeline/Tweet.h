@@ -19,6 +19,8 @@
 @property (nonatomic, readonly) BOOL retweeted;
 @property (nonatomic, readonly) BOOL favorited;
 @property (nonatomic, strong, readonly) NSString *created_at;
+@property (nonatomic, strong, readonly) NSString *created_at_short;
+@property (nonatomic, strong, readonly) NSString *created_at_veryshort;
 
 + (NSMutableArray *)tweetsWithArray:(NSArray *)array;
 
