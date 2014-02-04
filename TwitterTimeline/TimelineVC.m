@@ -89,12 +89,11 @@
 {
     static NSString *CellIdentifier = @"MyTweetCell";
 //    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+//    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
 
     Tweet *tweet = self.tweets[indexPath.row];
-    cell.textLabel.text = tweet.text;
+//    cell.textLabel.text = tweet.text;
 
-    /*
     TweetCell *cell = (TweetCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     cell.textLabel.text = tweet.text;
     cell.nameLabel.text = tweet.name;
@@ -104,8 +103,7 @@
     
     NSURL *url = [[NSURL alloc] initWithString:tweet.profile_image_url];
     [cell.profileImage setImageWithURL:url];
-    */
-
+ 
     return cell;
 }
 
