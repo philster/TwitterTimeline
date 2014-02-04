@@ -17,10 +17,14 @@
 @property (nonatomic, weak) IBOutlet UILabel *screenNameLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *profileImage;
 @property (nonatomic, weak) IBOutlet UILabel *createdAtLabel;
-/*
+@property (nonatomic, weak) IBOutlet UILabel *retweetCountLabel;
+@property (nonatomic, weak) IBOutlet UILabel *favoriteCountLabel;
 @property (nonatomic, weak) IBOutlet UIButton *replyButton;
 @property (nonatomic, weak) IBOutlet UIButton *retweetButton;
 @property (nonatomic, weak) IBOutlet UIButton *favoriteButton;
-*/
+
+- (IBAction)replyAction:(id)sender;
+- (IBAction)retweetAction:(id)sender;
+- (IBAction)favoriteAction:(id)sender;
 
 @end
