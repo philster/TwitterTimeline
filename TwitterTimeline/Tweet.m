@@ -29,6 +29,15 @@
     return [user valueOrNilForKeyPath:@"profile_image_url"];
 }
 
+- (NSString *)tweet_id {
+    return [self.data valueOrNilForKeyPath:@"id_str"];
+}
+
+- (NSString *)retweet_id {
+    NSDictionary *user_retweet = [self.data valueOrNilForKeyPath:@"current_user_retweet"];
+    return [user_retweet valueOrNilForKeyPath:@"id_str"];
+}
+
 - (NSUInteger)retweet_count {
     return [[self.data valueOrNilForKeyPath:@"retweet_count"] integerValue];
 }
