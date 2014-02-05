@@ -64,8 +64,15 @@
 
 - (void)onTweet
 {
-    NSLog(@"Tweet");
-    // save stuff then dismiss
+    // Tweet via Twitter API
+    [[TwitterClient instance] composeTweet:self.textView.text success:^(AFHTTPRequestOperation *operation, id response) {
+        NSLog(@"Success: %@", response);
+        self.tweet.tweet_id = [response objectForKey:@"id_str"];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Compose fail!: %@", error);
+    }];
+    
+    // Save stuff then dismiss
     [self dismiss];
 }
 
