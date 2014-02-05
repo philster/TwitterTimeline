@@ -1,9 +1,9 @@
 //
 //  TwitterClient.m
-//  twitter
+//  TwitterTimeline
 //
-//  Created by Timothy Lee on 8/5/13.
-//  Copyright (c) 2013 codepath. All rights reserved.
+//  Created by Phil Wee on 2/2/14.
+//  Copyright (c) 2014 Philster. All rights reserved.
 //
 
 #import "TwitterClient.h"
@@ -63,6 +63,46 @@ static NSString * const kAccessTokenKey = @"kAccessTokenKey";
         [params setObject:@(maxId) forKey:@"max_id"];
     }
     [self getPath:@"1.1/statuses/home_timeline.json" parameters:params success:success failure:failure];
+}
+
+- (void)composeTweet:(NSString *)text success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"status": text}];
+    [self postPath:@"1.1/statuses/update.json" parameters:params success:success failure:failure];
+}
+
+- (void)destroyTweet:(NSString *)tweetId success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
+{
+    NSString *path = [NSString stringWithFormat:@"1.1/statuses/destroy/%@.json", tweetId];
+    [self postPath:path parameters:nil success:success failure:failure];
+}
+
+- (void)replyTweet:(NSString *)text tweetId:(NSString *)tweetId success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    [params setObject:text forKey:@"status"];
+    [params setObject:tweetId forKey:@"in_reply_to_status_id"];
+    [self postPath:@"1.1/statuses/update.json" parameters:params success:success failure:failure];
+}
+
+- (void)retweetTweet:(NSString *)tweetId success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSString *path = [NSString stringWithFormat:@"1.1/statuses/retweet/%@.json", tweetId];
+    [self postPath:path parameters:nil success:success failure:failure];
+}
+
+#pragma mark - Favorites API
+
+- (void)favoriteTweet:(NSString *)tweetId success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"id": tweetId}];
+    [self postPath:@"1.1/favorites/create.json" parameters:params success:success failure:failure];
+}
+
+- (void)unfavoriteTweet:(NSString *)tweetId success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"id": tweetId}];
+    [self postPath:@"1.1/favorites/destroy.json" parameters:params success:success failure:failure];
 }
 
 #pragma mark - Private methods
