@@ -50,12 +50,14 @@
     return nil;
 }
 
+@synthesize retweet_count = _retweet_count;
 - (NSUInteger)retweet_count {
-    return [[self.data valueOrNilForKeyPath:@"retweet_count"] integerValue];
+    return _retweet_count ? _retweet_count : [[self.data valueOrNilForKeyPath:@"retweet_count"] integerValue];
 }
 
+@synthesize favorite_count = _favorite_count;
 - (NSUInteger)favorite_count {
-    return [[self.data valueOrNilForKeyPath:@"favorite_count"] integerValue];
+    return _favorite_count ? _favorite_count : [[self.data valueOrNilForKeyPath:@"favorite_count"] integerValue];
 }
 
 - (BOOL)retweeted {

@@ -61,9 +61,9 @@
     [self.favoriteButton setBackgroundImage:[UIImage imageNamed:@"icn_favorite_on"] forState:UIControlStateSelected];
     [self.favoriteButton setSelected:self.tweet.favorited];
     
-    [self.replyButton addTarget:self action:@selector(onReply:) forControlEvents:UIControlEventTouchUpInside];
-    [self.retweetButton addTarget:self action:@selector(onRetweet:) forControlEvents:UIControlEventTouchUpInside];
-    [self.favoriteButton addTarget:self action:@selector(onFavorite:) forControlEvents:UIControlEventTouchUpInside];
+    //[self.replyButton addTarget:self action:@selector(onReply:) forControlEvents:UIControlEventTouchUpInside];
+    //[self.retweetButton addTarget:self action:@selector(onRetweet:) forControlEvents:UIControlEventTouchUpInside];
+    //[self.favoriteButton addTarget:self action:@selector(onFavorite:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)didReceiveMemoryWarning
@@ -105,6 +105,9 @@
             NSLog(@"Destroy retweet fail!: %@", error);
         }];
     }
+    // Update views
+    self.retweetCountLabel.text = [NSString stringWithFormat:@"%d RETWEETS", self.tweet.retweet_count];
+    self.favoriteCountLabel.text =  [NSString stringWithFormat:@"%d FAVORITES", self.tweet.favorite_count];
 }
 
 - (IBAction)onFavorite:(UIButton *)sender {
@@ -129,6 +132,9 @@
             NSLog(@"Unfavorite fail!: %@", error.localizedDescription);
         }];
     }
+    // Update views
+    self.retweetCountLabel.text = [NSString stringWithFormat:@"%d RETWEETS", self.tweet.retweet_count];
+    self.favoriteCountLabel.text =  [NSString stringWithFormat:@"%d FAVORITES", self.tweet.favorite_count];
 }
 
 @end
