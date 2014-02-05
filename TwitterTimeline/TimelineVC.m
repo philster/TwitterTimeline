@@ -279,7 +279,7 @@
 - (void)reload
 {
     [[TwitterClient instance] homeTimelineWithCount:20 sinceId:0 maxId:0 success:^(AFHTTPRequestOperation *operation, id response) {
-        NSLog(@"%@", response);
+//        NSLog(@"%@", response);
         self.tweets = [Tweet tweetsWithArray:response];
         [self.refreshControl endRefreshing];
         [self.tableView reloadData];

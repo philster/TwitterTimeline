@@ -20,7 +20,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.title = @"Compose";
+        self.title = @"140";
     }
     return self;
 }
@@ -35,12 +35,18 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Tweet" style:UIBarButtonItemStylePlain target:self action:@selector(onTweet)];
 
     // Populate tweet view data
-    self.textLabel.text = self.tweet.text;
-    self.nameLabel.text = self.tweet.name;
-    self.screenNameLabel.text = self.tweet.screen_name;
+    self.textView.text = @"";
+    //if (self.replyTo) {
+    //    self.textView.text = [NSString stringWithFormat:@"%@ ", self.replyTo.screenName];
+    //}
+    NSDictionary *user = [[User currentUser] data];
+    self.nameLabel.text = [user valueOrNilForKeyPath:@"name"];
+    self.screenNameLabel.text = [user valueOrNilForKeyPath:@"screen_name"];
     
-    //NSURL *url = [[NSURL alloc] initWithString:self.tweet.profile_image_url];
-    //[self.profileImage setImageWithURL:url];
+    NSURL *url = [NSURL URLWithString:[user valueOrNilForKeyPath:@"profile_image_url"]];
+    [self.profileImage setImageWithURL:url];
+    
+    [self.textView becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
