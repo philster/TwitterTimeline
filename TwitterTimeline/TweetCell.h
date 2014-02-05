@@ -18,9 +18,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *replyButton;
 @property (nonatomic, weak) IBOutlet UIButton *retweetButton;
 @property (nonatomic, weak) IBOutlet UIButton *favoriteButton;
-
-- (IBAction)replyAction:(id)sender;
-- (IBAction)retweetAction:(id)sender;
-- (IBAction)favoriteAction:(id)sender;
+@property (nonatomic, weak) IBOutlet UILabel *retweetedByLabel;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *heightConstraint;
 
 @end

@@ -33,9 +33,21 @@
     return [self.data valueOrNilForKeyPath:@"id_str"];
 }
 
+@synthesize retweet_id = _retweet_id;
 - (NSString *)retweet_id {
-    NSDictionary *user_retweet = [self.data valueOrNilForKeyPath:@"current_user_retweet"];
-    return [user_retweet valueOrNilForKeyPath:@"id_str"];
+    if (!_retweet_id) {
+        NSDictionary *user_retweet = [self.data valueOrNilForKeyPath:@"current_user_retweet"];
+        return [user_retweet valueOrNilForKeyPath:@"id_str"];
+    }
+    return _retweet_id;
+}
+
+- (NSString *)retweeted_by {
+    if ([self.data valueOrNilForKeyPath:@"retweeted_status"]) {
+        NSDictionary *user = [self.data valueOrNilForKeyPath:@"user"];
+        return [user valueOrNilForKeyPath:@"name"];
+    }
+    return nil;
 }
 
 - (NSUInteger)retweet_count {
@@ -79,7 +91,7 @@ static NSDateFormatter *dateFormatter;
     // Twitter date format: @"Wed Jan 01 00:00:00 +0000 2014"
     [dateFormatter setDateFormat:@"EEE MMM dd HH:mm:ss vvvv yyyy"];
     NSDate *createdDate = [dateFormatter dateFromString:self.created_at];
-    NSTimeInterval timeInterval = [createdDate timeIntervalSinceNow];
+    NSTimeInterval timeInterval = -[createdDate timeIntervalSinceNow];
     if (timeInterval < 60.0) {
         return @"Just now";
     }

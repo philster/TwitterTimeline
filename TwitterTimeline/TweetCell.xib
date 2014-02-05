@@ -73,9 +73,6 @@
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Did you know you can tell if someone is a programmer simply by saying the word &quot;timezones&quot; and seeing if they cringe?" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="224" translatesAutoresizingMaskIntoConstraints="NO" id="wIO-xx-ETp">
                         <rect key="frame" x="76" y="61" width="224" height="69"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="224" id="hDG-nK-Dd2"/>
-                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -89,9 +86,6 @@
                         <state key="normal" backgroundImage="icn_reply_off">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
-                        <connections>
-                            <action selector="replyAction:" destination="BNR-Yu-wUE" eventType="touchUpInside" id="a9d-b5-gP1"/>
-                        </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y7n-Vd-Cji">
                         <rect key="frame" x="132" y="138" width="19" height="14"/>
@@ -103,9 +97,6 @@
                         <state key="normal" backgroundImage="icn_retweet_off">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
-                        <connections>
-                            <action selector="retweetAction:" destination="BNR-Yu-wUE" eventType="touchUpInside" id="uNW-SA-xCp"/>
-                        </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jk8-jj-9mi">
                         <rect key="frame" x="191" y="138" width="14" height="14"/>
@@ -117,9 +108,6 @@
                         <state key="normal" backgroundImage="icn_favorite_off">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
-                        <connections>
-                            <action selector="favoriteAction:" destination="BNR-Yu-wUE" eventType="touchUpInside" id="Muv-NX-1bN"/>
-                        </connections>
                     </button>
                 </subviews>
                 <constraints>
@@ -152,10 +140,12 @@
             <connections>
                 <outlet property="createdAtLabel" destination="gsp-f7-US8" id="hIQ-uH-Jcs"/>
                 <outlet property="favoriteButton" destination="Jk8-jj-9mi" id="CrE-Hu-KRr"/>
+                <outlet property="heightConstraint" destination="dEe-cj-Dv8" id="dGS-vk-yb5"/>
                 <outlet property="nameLabel" destination="qu3-sO-eu6" id="ZBf-FB-nJe"/>
                 <outlet property="profileImage" destination="kcD-8z-N64" id="8Qq-80-w1I"/>
                 <outlet property="replyButton" destination="wDk-73-a6z" id="DxI-Z7-IWj"/>
                 <outlet property="retweetButton" destination="Y7n-Vd-Cji" id="00K-es-eX7"/>
+                <outlet property="retweetedByLabel" destination="5Lz-q3-Y73" id="c3D-c1-D7Q"/>
                 <outlet property="screenNameLabel" destination="LQa-6b-NKR" id="cIg-WB-kZG"/>
                 <outlet property="textLabel" destination="wIO-xx-ETp" id="OSI-LP-nUS"/>
             </connections>

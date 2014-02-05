@@ -9,11 +9,13 @@
                 <outlet property="createdAtLabel" destination="prL-gC-esL" id="ZQ8-uZ-VRx"/>
                 <outlet property="favoriteButton" destination="GIX-Xu-H56" id="4HP-vN-AkH"/>
                 <outlet property="favoriteCountLabel" destination="9G8-c2-1xe" id="de0-YG-tri"/>
+                <outlet property="heightConstraint" destination="SQP-cr-wla" id="OZw-bh-ijL"/>
                 <outlet property="nameLabel" destination="gsZ-vP-C0A" id="I5x-6M-EVh"/>
                 <outlet property="profileImage" destination="a9I-j1-Ofe" id="UNp-ET-6E3"/>
                 <outlet property="replyButton" destination="gMV-lt-4Ch" id="w8z-9M-0wy"/>
                 <outlet property="retweetButton" destination="kXl-x6-vrV" id="Muv-aN-Pqo"/>
                 <outlet property="retweetCountLabel" destination="GCT-MF-Kdf" id="pO0-hB-s9u"/>
+                <outlet property="retweetedByLabel" destination="mAc-i6-mtY" id="wsf-7t-mxp"/>
                 <outlet property="screenNameLabel" destination="Yuo-Ld-C3E" id="GXt-DJ-hkn"/>
                 <outlet property="textLabel" destination="3xt-TW-MHO" id="t0Q-49-mXv"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -135,7 +137,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="replyAction:" destination="-1" eventType="touchUpInside" id="Oag-Ad-5ro"/>
+                        <action selector="onReply:" destination="-1" eventType="touchUpInside" id="CLX-4l-4Cm"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kXl-x6-vrV">
@@ -149,7 +151,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="retweetAction:" destination="-1" eventType="touchUpInside" id="4hT-lZ-XVg"/>
+                        <action selector="onRetweet:" destination="-1" eventType="touchUpInside" id="Hyg-Mf-19Q"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GIX-Xu-H56">
@@ -163,7 +165,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="favoriteAction:" destination="-1" eventType="touchUpInside" id="xlj-C8-7x9"/>
+                        <action selector="onFavorite:" destination="-1" eventType="touchUpInside" id="x4J-xz-CdY"/>
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zZv-7A-3ey">

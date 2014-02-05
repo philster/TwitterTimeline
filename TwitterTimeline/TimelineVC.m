@@ -10,7 +10,6 @@
 #import "ComposeVC.h"
 #import "TweetCell.h"
 #import "TweetVC.h"
-#import "TwitterClient.h"
 #import "UIImageView+AFNetworking.h"
 
 @interface TimelineVC ()
@@ -93,17 +92,36 @@
     // Configure the cell...
     Tweet *tweet = self.tweets[indexPath.row];
     cell.textLabel.text = tweet.text;
+    cell.textLabel.numberOfLines = 0;
+    [cell.textLabel sizeToFit];
     cell.nameLabel.text = tweet.name;
     cell.screenNameLabel.text = tweet.screen_name;
-    cell.textLabel.text = tweet.text;
     cell.createdAtLabel.text = tweet.created_at_veryshort;
-    
-    NSURL *url = [[NSURL alloc] initWithString:tweet.profile_image_url];
+    if (tweet.retweeted_by) {
+        cell.retweetedByLabel.text = [NSString stringWithFormat:@"%@ retweeted", tweet.retweeted_by];
+    } else {
+        cell.retweetedByLabel.hidden = YES;
+        cell.heightConstraint.constant = 0;
+    }
+
+    NSURL *url = [NSURL URLWithString:tweet.profile_image_url];
     [cell.profileImage setImageWithURL:url];
     
-    [cell.retweetButton setBackgroundImage:[UIImage imageNamed:(tweet.retweeted ? @"icn_retweet_on" : @"icn_retweet_off")] forState:UIControlStateNormal];
-    [cell.favoriteButton setBackgroundImage:[UIImage imageNamed:(tweet.favorited ? @"icn_favorite_on" : @"icn_favorite_off")] forState:UIControlStateNormal];
+    [cell.retweetButton setBackgroundImage:[UIImage imageNamed:@"icn_retweet_off"] forState:UIControlStateNormal];
+    [cell.retweetButton setBackgroundImage:[UIImage imageNamed:@"icn_retweet_on"] forState:UIControlStateSelected];
+    [cell.retweetButton setSelected:tweet.retweeted];
     
+    [cell.favoriteButton setBackgroundImage:[UIImage imageNamed:@"icn_favorite_off"] forState:UIControlStateNormal];
+    [cell.favoriteButton setBackgroundImage:[UIImage imageNamed:@"icn_favorite_on"] forState:UIControlStateSelected];
+    [cell.favoriteButton setSelected:tweet.favorited];
+    
+    cell.replyButton.tag = indexPath.row;
+    cell.retweetButton.tag = indexPath.row;
+    cell.favoriteButton.tag = indexPath.row;
+    [cell.replyButton addTarget:self action:@selector(onReply:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.retweetButton addTarget:self action:@selector(onRetweet:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.favoriteButton addTarget:self action:@selector(onFavorite:) forControlEvents:UIControlEventTouchUpInside];
+
     return cell;
 }
 
@@ -148,7 +166,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 165;
+    return 140.0f;
 }
 
 /*
@@ -165,7 +183,8 @@
 
 #pragma mark - Table view delegate methods
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     // navigate to Tweet view controller
     TweetVC *vc = [[TweetVC alloc] initWithNibName:@"TweetVC" bundle:nil];
@@ -195,15 +214,77 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)onReply:(UIButton *)sender {
+    NSLog(@"onReply: %d", sender.tag);
+    Tweet *tweet = self.tweets[sender.tag];
+    
+    ComposeVC *vc = [[ComposeVC alloc] initWithNibName:@"ComposeVC" bundle:nil];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)onRetweet:(UIButton *)sender {
+    Tweet *tweet = self.tweets[sender.tag];
+    sender.selected = !sender.selected;
+    if (sender.selected) {
+        tweet.retweeted = YES;
+        tweet.retweet_count += 1;
+        
+        // Retweet via Twitter API
+        [[TwitterClient instance] retweetTweet:tweet.tweet_id success:^(AFHTTPRequestOperation *operation, id response) {
+            tweet.retweeted = YES;
+            tweet.retweet_id = [response objectForKey:@"id_str"];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Retweet fail!: %@", error);
+        }];
+    }
+    else {
+        tweet.retweeted = NO;
+        tweet.retweet_count -= 1;
+        
+        // Remove retweet via Twitter API
+        [[TwitterClient instance] destroyTweet:tweet.retweet_id success:^(AFHTTPRequestOperation *operation, id response) {
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Destroy retweet fail!: %@", error);
+        }];
+    }
+    //[self.tableView reloadData];
+}
+
+- (void)onFavorite:(UIButton *)sender {
+    Tweet *tweet = self.tweets[sender.tag];
+    sender.selected = !sender.selected;
+    if (sender.isSelected) {
+        tweet.favorited = YES;
+        tweet.favorite_count += 1;
+        
+        // Favorite via Twitter API
+        [[TwitterClient instance] favoriteTweet:tweet.tweet_id success:^(AFHTTPRequestOperation *operation, id response) {
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Favorite fail!: %@", error.localizedDescription);
+        }];
+    }
+    else {
+        tweet.favorited = NO;
+        tweet.favorite_count -= 1;
+        
+        // Unfavorite via Twitter API
+        [[TwitterClient instance] unfavoriteTweet:tweet.tweet_id success:^(AFHTTPRequestOperation *operation, id response) {
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Unfavorite fail!: %@", error.localizedDescription);
+        }];
+    }
+    //[self.tableView reloadData];
+}
+
 - (void)reload
 {
     [[TwitterClient instance] homeTimelineWithCount:20 sinceId:0 maxId:0 success:^(AFHTTPRequestOperation *operation, id response) {
-        [self.refreshControl endRefreshing];
         NSLog(@"%@", response);
         self.tweets = [Tweet tweetsWithArray:response];
+        [self.refreshControl endRefreshing];
         [self.tableView reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        // Do nothing
+        // Network error
         [self.refreshControl endRefreshing];
         [[[UIAlertView alloc] initWithTitle:@"Oops!" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }];

@@ -73,8 +73,9 @@ static NSString * const kAccessTokenKey = @"kAccessTokenKey";
 
 - (void)destroyTweet:(NSString *)tweetId success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
 {
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     NSString *path = [NSString stringWithFormat:@"1.1/statuses/destroy/%@.json", tweetId];
-    [self postPath:path parameters:nil success:success failure:failure];
+    [self postPath:path parameters:params success:success failure:failure];
 }
 
 - (void)replyTweet:(NSString *)text tweetId:(NSString *)tweetId success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
@@ -87,8 +88,9 @@ static NSString * const kAccessTokenKey = @"kAccessTokenKey";
 
 - (void)retweetTweet:(NSString *)tweetId success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     NSString *path = [NSString stringWithFormat:@"1.1/statuses/retweet/%@.json", tweetId];
-    [self postPath:path parameters:nil success:success failure:failure];
+    [self postPath:path parameters:params success:success failure:failure];
 }
 
 #pragma mark - Favorites API
