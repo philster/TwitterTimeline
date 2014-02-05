@@ -1,9 +1,9 @@
 //
 //  Tweet.m
-//  twitter
+//  TwitterTimeline
 //
-//  Created by Timothy Lee on 8/5/13.
-//  Copyright (c) 2013 codepath. All rights reserved.
+//  Created by Phil Wee on 2/2/14.
+//  Copyright (c) 2014 Philster. All rights reserved.
 //
 
 #import "Tweet.h"
