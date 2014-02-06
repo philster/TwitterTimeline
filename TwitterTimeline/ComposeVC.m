@@ -15,6 +15,8 @@
 
 @implementation ComposeVC
 
+@synthesize delegate;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -57,7 +59,8 @@
 
 #pragma mark - Text view delegate
 
-// reference: http://stackoverflow.com/questions/5258416/how-to-implement-a-simple-live-word-count-in-a-uitextview
+// Tweet character counter
+// Reference: http://stackoverflow.com/questions/5258416/how-to-implement-a-simple-live-word-count-in-a-uitextview
 - (void)textViewDidChange:(UITextView *)textView
 {
     int len = [textView.text length];
@@ -95,6 +98,12 @@
     } else {
         // Tweet via Twitter API
         [[TwitterClient instance] composeTweet:self.tweetTextView.text success:^(AFHTTPRequestOperation *operation, id response) {
+            // Pass data from child view controller to parent view controller
+            // Reference: http://stackoverflow.com/questions/6203799/dismissmodalviewcontroller-and-pass-data-back
+            if([self.delegate respondsToSelector:@selector(composeViewControllerDismissed:)]) {
+                Tweet *tweet = [[Tweet alloc] initWithDictionary:response];
+                [self.delegate composeViewControllerDismissed:tweet];
+            }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Compose fail!: %@", error.localizedDescription);
         }];

@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ComposeDelegate <NSObject>
+
+- (void)composeViewControllerDismissed:(Tweet *)tweet;
+
+@end
+
 @interface ComposeVC : UIViewController <UITextViewDelegate>
 
 @property (nonatomic, weak) Tweet *replyToTweet;
@@ -16,5 +22,6 @@
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *screenNameLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *profileImage;
+@property (nonatomic, assign) id<ComposeDelegate> delegate;
 
 @end

@@ -214,6 +214,7 @@
 {
     // navigate to Compose view controller
     ComposeVC *vc = [[ComposeVC alloc] initWithNibName:@"ComposeVC" bundle:nil];
+    vc.delegate = self;
     vc.user = [User currentUser];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -279,8 +280,11 @@
     //[self.tableView reloadData];
 }
 
-- (void)pushToTimeline:(Tweet *)tweet
+// Pass data from child view controller to parent view controller
+// Reference: http://stackoverflow.com/questions/6203799/dismissmodalviewcontroller-and-pass-data-back
+- (void)composeViewControllerDismissed:(Tweet *)tweet
 {
+    // push new tweet to top of timeline display
     [self.tweets insertObject:tweet atIndex:0];
     [self.tableView reloadData];
 }
