@@ -54,13 +54,13 @@ static NSString * const kAccessTokenKey = @"kAccessTokenKey";
 
 #pragma mark - Statuses API
 
-- (void)homeTimelineWithCount:(int)count sinceId:(int)sinceId maxId:(int)maxId success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+- (void)homeTimelineWithCount:(int)count sinceId:(NSString *)sinceId maxId:(NSString *)maxId success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"count": @(count)}];
-    if (sinceId > 0) {
-        [params setObject:@(sinceId) forKey:@"since_id"];
+    if ([sinceId longLongValue] > 0) {
+        [params setObject:@([sinceId longLongValue]) forKey:@"since_id"];
     }
-    if (maxId > 0) {
-        [params setObject:@(maxId) forKey:@"max_id"];
+    if ([maxId longLongValue] > 0) {
+        [params setObject:@([maxId longLongValue]) forKey:@"max_id"];
     }
     [self getPath:@"1.1/statuses/home_timeline.json" parameters:params success:success failure:failure];
 }

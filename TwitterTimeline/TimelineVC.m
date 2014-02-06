@@ -290,16 +290,25 @@
 }
 
 // UITableView scrolling; for loading more tweets
-// Reference: http://stackoverflow.com/questions/10404116/uitableview-infinite-scrolling
+// (using IndexPath)
+// Reference: http://stackoverflow.com/questions/5137943/how-to-know-when-uitableview-did-scroll-to-bottom-in-iphone
+// Reference: http://stackoverflow.com/questions/10578629/how-to-select-a-row-in-table-view-when-it-reach-a-specific-position
+static int prevRow;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    CGFloat actualPosition = scrollView.contentOffset.y;
-    CGFloat contentHeight = scrollView.contentSize.height - 10.0;
-    if (actualPosition >= contentHeight) {
+    CGPoint offset = self.tableView.contentOffset;
+    CGPoint point = offset;
+    point.y += self.tableView.center.y;
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:point];
+    int currRow = indexPath.row;
+    NSLog(@"current table view row: %d", currRow);
+    if (currRow > 17 && currRow != prevRow) {
         // Load more tweets
         Tweet *lastTweet = [self.tweets lastObject];
-        [[TwitterClient instance] homeTimelineWithCount:20 sinceId:0 maxId:[lastTweet.tweet_id intValue] success:^(AFHTTPRequestOperation *operation, id response) {
+        NSLog(@"Loading older tweets since %@ (%lld)", lastTweet.tweet_id, [lastTweet.tweet_id longLongValue]);
+        [[TwitterClient instance] homeTimelineWithCount:20 sinceId:@"0" maxId:lastTweet.tweet_id success:^(AFHTTPRequestOperation *operation, id response) {
             NSLog(@"%@", response);
+            prevRow = currRow;
             if ([lastTweet.tweet_id intValue] > 0) {
                 [self.tweets addObjectsFromArray:[Tweet tweetsWithArray:response]];
             } else {
