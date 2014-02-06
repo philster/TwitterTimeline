@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ComposeVC : UIViewController
+@interface ComposeVC : UIViewController <UITextViewDelegate>
 
-@property (nonatomic, weak) Tweet *tweet;
+@property (nonatomic, weak) Tweet *replyToTweet;
 @property (nonatomic, weak) User *user;
-@property (nonatomic, weak) IBOutlet UITextView *textView;
+@property (nonatomic, weak) IBOutlet UITextView *tweetTextView;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *screenNameLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *profileImage;

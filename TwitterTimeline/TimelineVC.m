@@ -105,7 +105,7 @@
     }
 
     NSURL *url = [NSURL URLWithString:tweet.profile_image_url];
-    [cell.profileImage setImageWithURL:url];
+    [cell.profileImage setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder"]];
     
     [cell.retweetButton setBackgroundImage:[UIImage imageNamed:@"icn_retweet_off"] forState:UIControlStateNormal];
     [cell.retweetButton setBackgroundImage:[UIImage imageNamed:@"icn_retweet_on"] forState:UIControlStateSelected];
@@ -166,7 +166,18 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 140.0f;
+    // maximum cell height
+    static CGFloat maxHeight = 160.0f;
+    
+    Tweet *tweet = self.tweets[indexPath.row];
+    
+    CGFloat width = self.view.frame.size.width;
+    CGRect frame = [tweet.text boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
+                                            options:NSStringDrawingUsesLineFragmentOrigin
+                                         attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]}
+                                            context:nil];
+    
+    return (maxHeight - 68.0f + frame.size.height - (tweet.retweeted_by ? 0.0f : 24.0f));
 }
 
 /*
@@ -211,14 +222,14 @@
     newTweet.screen_name = [user valueOrNilForKeyPath:@"screen_name"];
     newTweet.profile_image_url = [user valueOrNilForKeyPath:@"profile_image_url"];
     */
+    vc.user = [User currentUser];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)onReply:(UIButton *)sender {
-    NSLog(@"onReply: %d", sender.tag);
-    Tweet *tweet = self.tweets[sender.tag];
-    
     ComposeVC *vc = [[ComposeVC alloc] initWithNibName:@"ComposeVC" bundle:nil];
+    vc.replyToTweet = self.tweets[sender.tag];
+    vc.user = [User currentUser];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -279,7 +290,7 @@
 - (void)reload
 {
     [[TwitterClient instance] homeTimelineWithCount:20 sinceId:0 maxId:0 success:^(AFHTTPRequestOperation *operation, id response) {
-//        NSLog(@"%@", response);
+        NSLog(@"%@", response);
         self.tweets = [Tweet tweetsWithArray:response];
         [self.refreshControl endRefreshing];
         [self.tableView reloadData];

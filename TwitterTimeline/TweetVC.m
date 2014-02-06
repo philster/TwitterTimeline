@@ -51,7 +51,7 @@
     self.favoriteCountLabel.text =  [NSString stringWithFormat:@"%d FAVORITES", self.tweet.favorite_count];
     
     NSURL *url = [[NSURL alloc] initWithString:self.tweet.profile_image_url];
-    [self.profileImage setImageWithURL:url];
+    [self.profileImage setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder"]];
     
     [self.retweetButton setBackgroundImage:[UIImage imageNamed:@"icn_retweet_off"] forState:UIControlStateNormal];
     [self.retweetButton setBackgroundImage:[UIImage imageNamed:@"icn_retweet_on"] forState:UIControlStateSelected];
