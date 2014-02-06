@@ -37,7 +37,7 @@
     // Populate tweet view data
     self.tweetTextView.text = @"";
     if (self.replyToTweet) {
-        self.tweetTextView.text = [NSString stringWithFormat:@"@%@ ", self.replyToTweet.screen_name];
+        self.tweetTextView.text = [NSString stringWithFormat:@"%@ ", self.replyToTweet.screen_name];
     }
     //NSDictionary *user = [[User currentUser] data];
     self.nameLabel.text = [self.user valueOrNilForKeyPath:@"name"];
@@ -86,13 +86,19 @@
 
 - (void)onTweet
 {
-    // Tweet via Twitter API
-    [[TwitterClient instance] composeTweet:self.tweetTextView.text success:^(AFHTTPRequestOperation *operation, id response) {
-        NSLog(@"Success: %@", response);
-        self.replyToTweet.tweet_id = [response objectForKey:@"id_str"];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Compose fail!: %@", error);
-    }];
+    if (self.replyToTweet) {
+        // Reply via Twitter API
+        [[TwitterClient instance] replyTweet:self.tweetTextView.text tweetId:self.replyToTweet.tweet_id success:^(AFHTTPRequestOperation *operation, id response) {
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Reply fail!: %@", error.localizedDescription);
+        }];
+    } else {
+        // Tweet via Twitter API
+        [[TwitterClient instance] composeTweet:self.tweetTextView.text success:^(AFHTTPRequestOperation *operation, id response) {
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Compose fail!: %@", error.localizedDescription);
+        }];
+    }
     
     // Save stuff then dismiss
     [self dismiss];

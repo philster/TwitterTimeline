@@ -78,6 +78,8 @@
     NSLog(@"onReply: %d", sender.tag);
     
     ComposeVC *vc = [[ComposeVC alloc] initWithNibName:@"ComposeVC" bundle:nil];
+    vc.replyToTweet = self.tweet;
+    vc.user = [User currentUser];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
