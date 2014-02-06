@@ -289,6 +289,29 @@
     [self.tableView reloadData];
 }
 
+// UITableView scrolling; for loading more tweets
+// Reference: http://stackoverflow.com/questions/10404116/uitableview-infinite-scrolling
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat actualPosition = scrollView.contentOffset.y;
+    CGFloat contentHeight = scrollView.contentSize.height - 10.0;
+    if (actualPosition >= contentHeight) {
+        // Load more tweets
+        Tweet *lastTweet = [self.tweets lastObject];
+        [[TwitterClient instance] homeTimelineWithCount:20 sinceId:0 maxId:[lastTweet.tweet_id intValue] success:^(AFHTTPRequestOperation *operation, id response) {
+            NSLog(@"%@", response);
+            if ([lastTweet.tweet_id intValue] > 0) {
+                [self.tweets addObjectsFromArray:[Tweet tweetsWithArray:response]];
+            } else {
+                self.tweets = [Tweet tweetsWithArray:response];
+            }
+            [self.tableView reloadData];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"%@", error);
+        }];
+    }
+}
+
 - (void)reload
 {
     [[TwitterClient instance] homeTimelineWithCount:20 sinceId:0 maxId:0 success:^(AFHTTPRequestOperation *operation, id response) {
