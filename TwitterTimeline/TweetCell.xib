@@ -17,21 +17,32 @@
                         <rect key="frame" x="20" y="8" width="280" height="24"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="retweeted" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Lz-q3-Y73">
-                                <rect key="frame" x="56" y="1" width="60" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="retweeted" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Lz-q3-Y73">
+                                <rect key="frame" x="56" y="1" width="56" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="V0W-D8-z4W"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icn_retweet_off" translatesAutoresizingMaskIntoConstraints="NO" id="Acc-MA-9pw">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icn_retweet_off" translatesAutoresizingMaskIntoConstraints="NO" id="Acc-MA-9pw">
                                 <rect key="frame" x="29" y="5" width="19" height="14"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="14" id="MeX-WM-eu6"/>
+                                    <constraint firstAttribute="width" constant="19" id="hmH-AX-Lgj"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Acc-MA-9pw" firstAttribute="top" secondItem="OHt-fr-tzo" secondAttribute="top" constant="5" id="CKh-ef-Vdr"/>
+                            <constraint firstItem="5Lz-q3-Y73" firstAttribute="top" secondItem="OHt-fr-tzo" secondAttribute="top" constant="1" id="DTb-Hg-dOt"/>
+                            <constraint firstItem="Acc-MA-9pw" firstAttribute="leading" secondItem="OHt-fr-tzo" secondAttribute="leading" constant="29" id="VbB-yb-DIR"/>
                             <constraint firstAttribute="height" constant="24" id="dEe-cj-Dv8"/>
                             <constraint firstAttribute="width" constant="280" id="mr7-DX-cce"/>
+                            <constraint firstItem="5Lz-q3-Y73" firstAttribute="leading" secondItem="Acc-MA-9pw" secondAttribute="trailing" constant="8" id="stK-xA-OZv"/>
                         </constraints>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kcD-8z-N64">
