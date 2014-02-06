@@ -214,14 +214,6 @@
 {
     // navigate to Compose view controller
     ComposeVC *vc = [[ComposeVC alloc] initWithNibName:@"ComposeVC" bundle:nil];
-    NSLog(@"%@", [User currentUser]);
-    /*
-    NSDictionary *user = [[User currentUser] data];
-    Tweet *newTweet = [[Tweet alloc] init];
-    newTweet.name = [user valueOrNilForKeyPath:@"name"];
-    newTweet.screen_name = [user valueOrNilForKeyPath:@"screen_name"];
-    newTweet.profile_image_url = [user valueOrNilForKeyPath:@"profile_image_url"];
-    */
     vc.user = [User currentUser];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -287,6 +279,12 @@
     //[self.tableView reloadData];
 }
 
+- (void)pushToTimeline:(Tweet *)tweet
+{
+    [self.tweets insertObject:tweet atIndex:0];
+    [self.tableView reloadData];
+}
+
 - (void)reload
 {
     [[TwitterClient instance] homeTimelineWithCount:20 sinceId:0 maxId:0 success:^(AFHTTPRequestOperation *operation, id response) {
@@ -297,11 +295,12 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         // Network error
         [self.refreshControl endRefreshing];
-        [[[UIAlertView alloc] initWithTitle:@"Oops!" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        NSLog(@"%@", error);
     }];
 }
 
 - (void)onError:(NSError *)error {
+    [[[UIAlertView alloc] initWithTitle:@"Oops!" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
 
