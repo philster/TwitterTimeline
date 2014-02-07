@@ -203,6 +203,60 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+// UITableView scrolling; for loading more tweets
+// Reference: http://stackoverflow.com/questions/5137943/how-to-know-when-uitableview-did-scroll-to-bottom-in-iphone
+static bool isLoadingMoreTweets = NO;
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGPoint offset = scrollView.contentOffset;
+    CGRect bounds = scrollView.bounds;
+    CGSize size = scrollView.contentSize;
+    UIEdgeInsets inset = scrollView.contentInset;
+    float y = offset.y + bounds.size.height - inset.bottom;
+    float h = size.height;
+    //NSLog(@"offset: %f, content.height: %f, bounds.height: %f, inset.top: %f, inset.bottom: %f, pos: %f of %f", offset.y, size.height, bounds.size.height, inset.top, inset.bottom, y, h);
+    
+    if (h == 0) return;  // Prevent loading more rows first time around, when scroll view content is not yet loaded
+    
+    float reload_distance = 10;
+    if (!isLoadingMoreTweets && y > h + reload_distance) {
+        // Load more tweets
+        Tweet *lastTweet = [self.tweets lastObject];
+        isLoadingMoreTweets = YES;
+        [[TwitterClient instance] homeTimelineWithCount:20 sinceId:@"0" maxId:lastTweet.tweet_id success:^(AFHTTPRequestOperation *operation, id response) {
+            NSLog(@"%@", response);
+            isLoadingMoreTweets = NO;
+            if ([lastTweet.tweet_id intValue] > 0) {
+                [self.tweets addObjectsFromArray:[Tweet tweetsWithArray:response]];
+            } else {
+                self.tweets = [Tweet tweetsWithArray:response];
+            }
+            [self.tableView reloadData];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"%@", error);
+            isLoadingMoreTweets = NO;
+        }];
+        /*
+         // Simulate tweet loading
+         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+         NSLog(@"More tweets loaded");
+         isLoadingMoreTweets = NO;
+         });
+         */
+    }
+}
+
+#pragma mark - Compose view delegate methods
+
+// Pass data from child view controller to parent view controller
+// Reference: http://stackoverflow.com/questions/6203799/dismissmodalviewcontroller-and-pass-data-back
+- (void)composeViewControllerDismissed:(Tweet *)tweet
+{
+    // push new tweet to top of timeline display
+    [self.tweets insertObject:tweet atIndex:0];
+    [self.tableView reloadData];
+}
+
 #pragma mark - Private methods
 
 - (void)onSignOutButton
@@ -278,58 +332,6 @@
         }];
     }
     //[self.tableView reloadData];
-}
-
-// Pass data from child view controller to parent view controller
-// Reference: http://stackoverflow.com/questions/6203799/dismissmodalviewcontroller-and-pass-data-back
-- (void)composeViewControllerDismissed:(Tweet *)tweet
-{
-    // push new tweet to top of timeline display
-    [self.tweets insertObject:tweet atIndex:0];
-    [self.tableView reloadData];
-}
-
-// UITableView scrolling; for loading more tweets
-// Reference: http://stackoverflow.com/questions/5137943/how-to-know-when-uitableview-did-scroll-to-bottom-in-iphone
-static bool isLoadingMoreTweets = NO;
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    CGPoint offset = scrollView.contentOffset;
-    CGRect bounds = scrollView.bounds;
-    CGSize size = scrollView.contentSize;
-    UIEdgeInsets inset = scrollView.contentInset;
-    float y = offset.y + bounds.size.height - inset.bottom;
-    float h = size.height;
-    //NSLog(@"offset: %f, content.height: %f, bounds.height: %f, inset.top: %f, inset.bottom: %f, pos: %f of %f", offset.y, size.height, bounds.size.height, inset.top, inset.bottom, y, h);
-
-    if (h == 0) return;  // Prevent loading more rows first time around, when scroll view content is not yet loaded
-    
-    float reload_distance = 10;
-    if (!isLoadingMoreTweets && y > h + reload_distance) {
-        // Load more tweets
-        Tweet *lastTweet = [self.tweets lastObject];
-        isLoadingMoreTweets = YES;
-        [[TwitterClient instance] homeTimelineWithCount:20 sinceId:@"0" maxId:lastTweet.tweet_id success:^(AFHTTPRequestOperation *operation, id response) {
-            NSLog(@"%@", response);
-            isLoadingMoreTweets = NO;
-            if ([lastTweet.tweet_id intValue] > 0) {
-                [self.tweets addObjectsFromArray:[Tweet tweetsWithArray:response]];
-            } else {
-                self.tweets = [Tweet tweetsWithArray:response];
-            }
-            [self.tableView reloadData];
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"%@", error);
-            isLoadingMoreTweets = NO;
-        }];
-        /*
-        // Simulate tweet loading
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-            NSLog(@"More tweets loaded");
-            isLoadingMoreTweets = NO;
-        });
-        */
-    }
 }
 
 - (void)reload
