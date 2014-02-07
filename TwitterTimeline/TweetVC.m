@@ -74,7 +74,8 @@
 
 #pragma mark - Private methods
 
-- (IBAction)onReply:(UIButton *)sender {
+- (IBAction)onReply:(UIButton *)sender
+{
     NSLog(@"onReply: %d", sender.tag);
     
     ComposeVC *vc = [[ComposeVC alloc] initWithNibName:@"ComposeVC" bundle:nil];
@@ -83,7 +84,8 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (IBAction)onRetweet:(UIButton *)sender {
+- (IBAction)onRetweet:(UIButton *)sender
+{
     sender.selected = !sender.selected;
     if (sender.selected) {
         self.tweet.retweeted = YES;
@@ -114,7 +116,8 @@
     self.retweetCountLabel.text = [NSString stringWithFormat:@"%d RETWEETS", self.tweet.retweet_count];
 }
 
-- (IBAction)onFavorite:(UIButton *)sender {
+- (IBAction)onFavorite:(UIButton *)sender
+{
     sender.selected = !sender.selected;
     if (sender.isSelected) {
         self.tweet.favorited = YES;

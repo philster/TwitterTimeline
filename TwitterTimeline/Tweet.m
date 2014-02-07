@@ -63,7 +63,8 @@
 }
 
 @synthesize retweet_id = _retweet_id;
-- (NSString *)retweet_id {
+- (NSString *)retweet_id
+{
     if (!_retweet_id) {
         NSDictionary *user_retweet = [self.data valueOrNilForKeyPath:@"current_user_retweet"];
         return [user_retweet valueOrNilForKeyPath:@"id_str"];
@@ -71,7 +72,8 @@
     return _retweet_id;
 }
 
-- (NSString *)retweeted_by {
+- (NSString *)retweeted_by
+{
     if ([self isRetweet]) {
         NSDictionary *user = [self.data valueOrNilForKeyPath:@"user"];
         return [user valueOrNilForKeyPath:@"name"];
@@ -80,26 +82,31 @@
 }
 
 @synthesize retweet_count = _retweet_count;
-- (NSUInteger)retweet_count {
+- (NSUInteger)retweet_count
+{
     return _retweet_count ? _retweet_count : [[self.data valueOrNilForKeyPath:@"retweet_count"] integerValue];
 }
 
 @synthesize favorite_count = _favorite_count;
-- (NSUInteger)favorite_count {
+- (NSUInteger)favorite_count
+{
     return _favorite_count ? _favorite_count : [[self.data valueOrNilForKeyPath:@"favorite_count"] integerValue];
 }
 
 @synthesize retweeted = _retweeted;
-- (BOOL)retweeted {
+- (BOOL)retweeted
+{
     return _retweeted ? _retweeted : [[self.data valueOrNilForKeyPath:@"retweeted"] boolValue];
 }
 
 @synthesize favorited = _favorited;
-- (BOOL)favorited {
+- (BOOL)favorited
+{
     return _favorited ? _favorited : [[self.data valueOrNilForKeyPath:@"favorited"] boolValue];
 }
 
-- (NSString *)created_at {
+- (NSString *)created_at
+{
     return [self.data valueOrNilForKeyPath:@"created_at"];
 }
 
@@ -140,7 +147,8 @@ static NSDateFormatter *dateFormatter;
     }
 }
 
-+ (NSMutableArray *)tweetsWithArray:(NSArray *)array {
++ (NSMutableArray *)tweetsWithArray:(NSArray *)array
+{
     NSMutableArray *tweets = [[NSMutableArray alloc] initWithCapacity:array.count];
     for (NSDictionary *params in array) {
         [tweets addObject:[[Tweet alloc] initWithDictionary:params]];

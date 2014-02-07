@@ -273,14 +273,16 @@ static bool isLoadingMoreTweets = NO;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)onReply:(UIButton *)sender {
+- (void)onReply:(UIButton *)sender
+{
     ComposeVC *vc = [[ComposeVC alloc] initWithNibName:@"ComposeVC" bundle:nil];
     vc.replyToTweet = self.tweets[sender.tag];
     vc.user = [User currentUser];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)onRetweet:(UIButton *)sender {
+- (void)onRetweet:(UIButton *)sender
+{
     Tweet *tweet = self.tweets[sender.tag];
     sender.selected = !sender.selected;
     if (sender.selected) {
@@ -310,7 +312,8 @@ static bool isLoadingMoreTweets = NO;
     }
 }
 
-- (void)onFavorite:(UIButton *)sender {
+- (void)onFavorite:(UIButton *)sender
+{
     Tweet *tweet = self.tweets[sender.tag];
     sender.selected = !sender.selected;
     if (sender.isSelected) {
@@ -353,9 +356,9 @@ static bool isLoadingMoreTweets = NO;
     }];
 }
 
-- (void)onError:(NSError *)error {
+- (void)onError:(NSError *)error
+{
     [[[UIAlertView alloc] initWithTitle:@"Oops!" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
-
 
 @end
