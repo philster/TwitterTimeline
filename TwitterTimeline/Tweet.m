@@ -10,26 +10,55 @@
 
 @implementation Tweet
 
-- (NSString *)text {
+- (NSString *)text
+{
+    if ([self isRetweet]) {
+        NSDictionary *data = [self.data valueOrNilForKeyPath:@"retweeted_status"];
+        return [data valueOrNilForKeyPath:@"text" ];
+    }
     return [self.data valueOrNilForKeyPath:@"text"];
 }
 
-- (NSString *)name {
+- (NSString *)name
+{
     NSDictionary *user = [self.data valueOrNilForKeyPath:@"user"];
+    if ([self isRetweet]) {
+        NSDictionary *data = [self.data valueOrNilForKeyPath:@"retweeted_status"];
+        user = [data valueOrNilForKeyPath:@"user"];
+    }
     return [user valueOrNilForKeyPath:@"name"];
 }
 
-- (NSString *)screen_name {
+- (NSString *)screen_name
+{
     NSDictionary *user = [self.data valueOrNilForKeyPath:@"user"];
+    if ([self isRetweet]) {
+        NSDictionary *data = [self.data valueOrNilForKeyPath:@"retweeted_status"];
+        user = [data valueOrNilForKeyPath:@"user"];
+    }
     return [@"@" stringByAppendingString: [user valueOrNilForKeyPath:@"screen_name"] ];
 }
 
-- (NSString *)profile_image_url {
+- (NSString *)profile_image_url
+{
     NSDictionary *user = [self.data valueOrNilForKeyPath:@"user"];
+    if ([self isRetweet]) {
+        NSDictionary *data = [self.data valueOrNilForKeyPath:@"retweeted_status"];
+        user = [data valueOrNilForKeyPath:@"user"];
+    }
     return [user valueOrNilForKeyPath:@"profile_image_url"];
 }
 
-- (NSString *)tweet_id {
+- (BOOL)isRetweet
+{
+    if ([self.data valueOrNilForKeyPath:@"retweeted_status"]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (NSString *)tweet_id
+{
     return [self.data valueOrNilForKeyPath:@"id_str"];
 }
 
@@ -43,7 +72,7 @@
 }
 
 - (NSString *)retweeted_by {
-    if ([self.data valueOrNilForKeyPath:@"retweeted_status"]) {
+    if ([self isRetweet]) {
         NSDictionary *user = [self.data valueOrNilForKeyPath:@"user"];
         return [user valueOrNilForKeyPath:@"name"];
     }
@@ -60,12 +89,14 @@
     return _favorite_count ? _favorite_count : [[self.data valueOrNilForKeyPath:@"favorite_count"] integerValue];
 }
 
+@synthesize retweeted = _retweeted;
 - (BOOL)retweeted {
-    return [[self.data valueOrNilForKeyPath:@"retweeted"] boolValue];
+    return _retweeted ? _retweeted : [[self.data valueOrNilForKeyPath:@"retweeted"] boolValue];
 }
 
+@synthesize favorited = _favorited;
 - (BOOL)favorited {
-    return [[self.data valueOrNilForKeyPath:@"favorited"] boolValue];
+    return _favorited ? _favorited : [[self.data valueOrNilForKeyPath:@"favorited"] boolValue];
 }
 
 - (NSString *)created_at {

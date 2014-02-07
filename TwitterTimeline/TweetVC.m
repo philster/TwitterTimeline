@@ -91,10 +91,11 @@
         
         // Retweet via Twitter API
         [[TwitterClient instance] retweetTweet:self.tweet.tweet_id success:^(AFHTTPRequestOperation *operation, id response) {
-            self.tweet.retweeted = YES;
             self.tweet.retweet_id = [response objectForKey:@"id_str"];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Retweet fail!: %@", error);
+            self.tweet.retweeted = NO;
+            self.tweet.retweet_count -= 1;
         }];
     }
     else {
@@ -105,11 +106,12 @@
         [[TwitterClient instance] destroyTweet:self.tweet.retweet_id success:^(AFHTTPRequestOperation *operation, id response) {
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Destroy retweet fail!: %@", error);
+            self.tweet.retweeted = YES;
+            self.tweet.retweet_count += 1;
         }];
     }
     // Update views
     self.retweetCountLabel.text = [NSString stringWithFormat:@"%d RETWEETS", self.tweet.retweet_count];
-    self.favoriteCountLabel.text =  [NSString stringWithFormat:@"%d FAVORITES", self.tweet.favorite_count];
 }
 
 - (IBAction)onFavorite:(UIButton *)sender {
@@ -122,6 +124,8 @@
         [[TwitterClient instance] favoriteTweet:self.tweet.tweet_id success:^(AFHTTPRequestOperation *operation, id response) {
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Favorite fail!: %@", error.localizedDescription);
+            self.tweet.favorited = NO;
+            self.tweet.favorite_count -= 1;
         }];
     }
     else {
@@ -132,10 +136,11 @@
         [[TwitterClient instance] unfavoriteTweet:self.tweet.tweet_id success:^(AFHTTPRequestOperation *operation, id response) {
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Unfavorite fail!: %@", error.localizedDescription);
+            self.tweet.favorited = YES;
+            self.tweet.favorite_count += 1;
         }];
     }
     // Update views
-    self.retweetCountLabel.text = [NSString stringWithFormat:@"%d RETWEETS", self.tweet.retweet_count];
     self.favoriteCountLabel.text =  [NSString stringWithFormat:@"%d FAVORITES", self.tweet.favorite_count];
 }
 

@@ -289,10 +289,11 @@ static bool isLoadingMoreTweets = NO;
         
         // Retweet via Twitter API
         [[TwitterClient instance] retweetTweet:tweet.tweet_id success:^(AFHTTPRequestOperation *operation, id response) {
-            tweet.retweeted = YES;
             tweet.retweet_id = [response objectForKey:@"id_str"];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Retweet fail!: %@", error);
+            tweet.retweeted = NO;
+            tweet.retweet_count -= 1;
         }];
     }
     else {
@@ -303,9 +304,10 @@ static bool isLoadingMoreTweets = NO;
         [[TwitterClient instance] destroyTweet:tweet.retweet_id success:^(AFHTTPRequestOperation *operation, id response) {
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Destroy retweet fail!: %@", error);
+            tweet.retweeted = YES;
+            tweet.retweet_count += 1;
         }];
     }
-    //[self.tableView reloadData];
 }
 
 - (void)onFavorite:(UIButton *)sender {
@@ -319,6 +321,8 @@ static bool isLoadingMoreTweets = NO;
         [[TwitterClient instance] favoriteTweet:tweet.tweet_id success:^(AFHTTPRequestOperation *operation, id response) {
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Favorite fail!: %@", error.localizedDescription);
+            tweet.favorited = NO;
+            tweet.favorite_count -= 1;
         }];
     }
     else {
@@ -329,9 +333,10 @@ static bool isLoadingMoreTweets = NO;
         [[TwitterClient instance] unfavoriteTweet:tweet.tweet_id success:^(AFHTTPRequestOperation *operation, id response) {
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Unfavorite fail!: %@", error.localizedDescription);
+            tweet.favorited = YES;
+            tweet.favorite_count += 1;
         }];
     }
-    //[self.tableView reloadData];
 }
 
 - (void)reload

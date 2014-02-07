@@ -14,17 +14,18 @@
 @property (nonatomic, strong, readonly) NSString *name;
 @property (nonatomic, strong, readonly) NSString *screen_name;
 @property (nonatomic, strong, readonly) NSString *profile_image_url;
-@property (nonatomic, strong) NSString *tweet_id;
+@property (nonatomic, strong, readonly) NSString *tweet_id;
 @property (nonatomic, strong) NSString *retweet_id;
-@property (nonatomic, strong) NSString *retweeted_by;
+@property (nonatomic, strong, readonly) NSString *retweeted_by;
 @property (nonatomic) NSUInteger retweet_count;
 @property (nonatomic) NSUInteger favorite_count;
 @property (nonatomic) BOOL retweeted;
 @property (nonatomic) BOOL favorited;
-@property (nonatomic, strong) NSString *created_at;
+@property (nonatomic, strong, readonly) NSString *created_at;
 @property (nonatomic, strong, readonly) NSString *created_at_short;
 @property (nonatomic, strong, readonly) NSString *created_at_veryshort;
 
 + (NSMutableArray *)tweetsWithArray:(NSArray *)array;
+- (BOOL)isRetweet;
 
 @end
