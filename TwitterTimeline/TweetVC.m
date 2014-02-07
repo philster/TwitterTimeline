@@ -47,8 +47,8 @@
         self.retweetedByLabel.hidden = YES;
         self.heightConstraint.constant = 0;
     }
-    self.retweetCountLabel.text = [NSString stringWithFormat:@"%d RETWEETS", self.tweet.retweet_count];
-    self.favoriteCountLabel.text =  [NSString stringWithFormat:@"%d FAVORITES", self.tweet.favorite_count];
+    self.retweetCountLabel.text = [NSString stringWithFormat:@"%lu RETWEETS", (unsigned long)self.tweet.retweet_count];
+    self.favoriteCountLabel.text =  [NSString stringWithFormat:@"%lu FAVORITES", (unsigned long)self.tweet.favorite_count];
     
     NSURL *url = [[NSURL alloc] initWithString:self.tweet.profile_image_url];
     [self.profileImage setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder"]];
@@ -111,7 +111,7 @@
         }];
     }
     // Update views
-    self.retweetCountLabel.text = [NSString stringWithFormat:@"%d RETWEETS", self.tweet.retweet_count];
+    self.retweetCountLabel.text = [NSString stringWithFormat:@"%lu RETWEETS", (unsigned long)self.tweet.retweet_count];
 }
 
 - (IBAction)onFavorite:(UIButton *)sender
@@ -142,7 +142,7 @@
         }];
     }
     // Update views
-    self.favoriteCountLabel.text =  [NSString stringWithFormat:@"%d FAVORITES", self.tweet.favorite_count];
+    self.favoriteCountLabel.text =  [NSString stringWithFormat:@"%lu FAVORITES", (unsigned long)self.tweet.favorite_count];
 }
 
 @end

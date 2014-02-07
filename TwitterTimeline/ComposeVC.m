@@ -62,8 +62,8 @@
 // Reference: http://stackoverflow.com/questions/5258416/how-to-implement-a-simple-live-word-count-in-a-uitextview
 - (void)textViewDidChange:(UITextView *)textView
 {
-    int len = [textView.text length];
-    self.title = [NSString stringWithFormat:@"%d", 140-len];
+    NSUInteger len = [textView.text length];
+    self.title = [NSString stringWithFormat:@"%lu", 140-len];
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
