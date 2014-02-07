@@ -41,7 +41,6 @@
     if (self.replyToTweet) {
         self.tweetTextView.text = [NSString stringWithFormat:@"%@ ", self.replyToTweet.screen_name];
     }
-    //NSDictionary *user = [[User currentUser] data];
     self.nameLabel.text = [self.user valueOrNilForKeyPath:@"name"];
     self.screenNameLabel.text = [NSString stringWithFormat:@"@%@", [self.user valueOrNilForKeyPath:@"screen_name"]];
     
